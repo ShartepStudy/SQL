@@ -1,0 +1,50 @@
+1. скрипт проверяет какое сейчас время суток, и выдаёт приветствие "добрый вечер!" или "добрый день!".
+
+2. скрипт генерит случайный сложный пароль длиной от @M до @N.
+
+3. показать все римские числа от 1 до 3999. например, 25 - это XXV.
+
+4. показать таблицу пифагора (select'ом!)
+
+5. показать количество цифр числа, хранящегося в переменной. число может быть вещественным!
+
+
+
+--1
+declare @time time = DATETIME() 
+if @time >= '6:00:00' AND @time <= '12:00:00'
+print 'Доброе утро'
+else if @time >= '18:00:00' AND @time <= '24:00:00'
+print 'Добрый вечер'
+
+--2
+declare @M int = 10, @N int = 30, @start int = 1
+
+declare @pwd varchar(20)
+
+		declare @pwdchars varchar(100),@pwdlen int,@counter int
+		select 	
+			@pwdchars = '0123456789qwertyuiopasdfghjklzxcvbnm9876543210QWERTYUIOPASDFGHJKLZXCVBNM9876543210',
+			@pwdlen = rand()*4+5,--длинна от 5 до 9 символов
+			@counter = 0,
+			@pwd	=	N''
+		while @counter<@pwdlen
+		begin
+			select 
+				@pwd=@pwd+substring(@pwdchars, cast(rand()*len(@pwdchars)+1 as int) ,1),
+				@counter = @counter+1
+		end
+
+select @pwd
+
+
+
+
+--4
+declare @a int = 0, @b int = 0, @c int
+while @b <= 10
+	begin
+	select @a, @b
+	set @c = @a*@b
+	select @c
+end
