@@ -1,0 +1,3 @@
+declare @statement nvarchar(50)
+set @statement = 'use IgorBase; select * from city;'
+exec sp_executesql @statement
