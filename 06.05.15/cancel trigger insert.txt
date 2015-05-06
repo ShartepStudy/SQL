@@ -1,0 +1,37 @@
+USE [GPbase2]
+GO
+/****** Object:  Trigger [dbo].[CancelInsertIntoBooks]    Script Date: 3/31/2015 7:45:03 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER TRIGGER [dbo].[CancelInsertIntoBooks]
+ON [dbo].[Books]
+
+INSTEAD OF INSERT AS
+
+declare @count int
+declare @year int
+
+SELECT @count = Count (YearPress) FROM Inserted
+
+declare gc cursor scroll for SELECT YearPress FROM Inserted;
+open gc;
+
+while @count > 0
+begin
+	fetch absolute @count from gc into @year
+	set @count = @count - 1
+	if @year > 2010  
+	begin
+		INSERT INTO Books (Name, YearPress, Pages)
+		SELECT Name, YearPress, Pages
+		FROM Inserted
+		WHERE YearPress = @year
+	end
+end
+
+close gc;
+deallocate gc; 
+

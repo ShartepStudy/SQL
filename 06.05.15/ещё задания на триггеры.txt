@@ -1,0 +1,32 @@
+написать триггер, который запретит вставку книги с годом издательства меньше 2010.
+
+CREATE TRIGGER DenyInsertOldBook ON Books
+FOR INSERT AS
+declare @year int
+SELECT @year=yearpress FROM inserted
+if @year <2010 rollback tran
+else print 'ok!'
+
+помимо однострочной вставки (insert values) учесть возможность многострочной вставки (insert select).
+
+insert books([Name],[Pages],[YearPress],[Id_Themes],[Id_Category],[Id_Author],[Id_Press],[Comment],[Quantity])
+select [Name],[Pages],[YearPress],[Id_Themes],[Id_Category],[Id_Author],[Id_Press],[Comment],[Quantity]
+FROM Books
+WHERE id < 10
+
+реализовать два сценария:
+1) если в таблице вставляемых книг есть хотя бы одна "старая" книга, то вставка полностью отменяется (rollback tran).
+2) если в таблице вставляемых книг есть хотя бы одна "новая" книга, то она должна попасть в Books, а все старые - нет.
+
+..............................................................
+
+написать триггер, который запрещает удалять книги издательства BHV.
+
+CREATE TRIGGER not_bhv ON Books
+FOR DELETE AS
+declare @id_bhv int
+SELECT @id_bhv=id FROM Press WHERE name LIKE 'BHV'
+if(EXISTS(SELECT * FROM deleted WHERE id_press=@id_bhv)) rollback tran
+
+реализовать такой сценарий:
+1) если в таблице удаляемых есть книги НЕ издательства BHV, то они всё же удаляются, а BHV - остаются.

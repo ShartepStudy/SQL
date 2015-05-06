@@ -1,0 +1,12 @@
+ALTER TRIGGER CancelInsertIntoBooks
+ON Books
+FOR INSERT AS
+
+declare @bad_year int = 2010
+if(EXISTS(SELECT * FROM Inserted WHERE yearPress < @bad_year))
+begin
+
+DELETE FROM Books
+WHERE id IN (SELECT id FROM inserted WHERE yearPress <@bad_year)
+
+end

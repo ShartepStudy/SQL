@@ -1,0 +1,1 @@
+http://stackoverflow.com/questions/1179758/function-vs-stored-procedure-in-sql-server
