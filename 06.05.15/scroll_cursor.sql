@@ -1,4 +1,6 @@
-declare gc cursor scroll for select  name from goods; -- объ€вл€ем курсор со скроллом
+USE Petrash
+
+declare gc cursor scroll for select Name from Books; -- объ€вл€ем курсор со скроллом
 open gc; -- открываем курсор, выполн€€ запрос, уазанный в курсоре
 declare @gname char(32); -- создаем временную переменную дл€ хранени€ результатов
 

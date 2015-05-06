@@ -1,13 +1,15 @@
-declare gc cursor for select  name from goods; -- объявляем курсор
-open gc; -- открываем курсор, выполняя запрос, уазанный в курсоре
-declare @gname char(32); -- создаем временную переменную для хранения результатов
+USE Petrash
 
-fetch next from gc into @gname; -- забираем первую запись
-while @@FETCH_STATUS = 0
+DECLARE gc cursor for select Name from Books; -- объявляем курсор
+OPEN gc; -- открываем курсор, выполняя запрос, уазанный в курсоре
+DECLARE @gname CHAR(32); -- создаем временную переменную для хранения результатов
+
+FETCH NEXT FROM gc INTO @gname; -- забираем первую запись
+WHILE @@FETCH_STATUS = 0
 begin
-	print @gname; -- выводим значение временной переменной
-	fetch next from gc into @gname;	- забираем следующую запись
+	PRINT @gname; -- выводим значение временной переменной
+	FETCH NEXT FROM gc INTO @gname;	-- забираем следующую запись
 end
 
-close gc; -- закрываем курсор
-deallocate gc; -- удаляем память, выделенную под курсор
+CLOSE gc; -- закрываем курсор
+DEALLOCATE gc; -- удаляем память, выделенную под курсор
