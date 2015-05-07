@@ -1,0 +1,6 @@
+скрипт удаления таблицы
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[schema].[DataTable]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+DROP TABLE [schema].[DataTable]
+
+где schema - обычно dbo
